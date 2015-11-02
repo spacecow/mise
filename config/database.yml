@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: mise
+  password: mise
+
+development:
+  <<: *default
+  database: mise_development
+
+test:
+  <<: *default
+  database: mise_test
