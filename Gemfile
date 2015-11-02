@@ -11,6 +11,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer'
+gem 'carrierwave'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
@@ -20,6 +21,7 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'pry'
 end
 
 group :development do
