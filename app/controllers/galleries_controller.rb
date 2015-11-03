@@ -13,15 +13,8 @@ class GalleriesController < ApplicationController
 
   def update
     form = repo.gallery_form params[:id]
-    repo.update_gallery form, gallery_params
+    repo.update_gallery form, params[:gallery]
     redirect_to edit_gallery_path(form.id)
   end
-
-  private
-
-    def gallery_params 
-      params[:gallery].nil? ?
-        {} : params[:gallery].permit(images_attributes: :content)
-    end
 
 end

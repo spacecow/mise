@@ -15,7 +15,7 @@ describe "galleries/edit.html.erb" do
   let(:file){ File.read filepath }
   let(:erb){ ERB.new file.
     sub(/<%= form_for/,'<% form_for').
-    sub(/<%= f.fields_for/,'<% f.fields_for') }
+    gsub(/<%= f.fields_for/,'<% f.fields_for') }
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/galleries/edit.html.erb" }
@@ -26,20 +26,30 @@ describe "galleries/edit.html.erb" do
   let(:image){ double :image }
   let(:image_form){ double :image_form }
 
+  let(:new_record){ true }
+  let(:images_attributes){ "images_attributes[]" }
+
   before do
     def bind.form_for mdl, opt={}; end
     expect(bind).to receive(:form_for).with(gallery, as: :gallery).and_yield(gallery_form)
     expect(gallery).to receive(:images){ [image] }
+    expect(image).to receive(:new_record?){ new_record }
     expect(gallery_form).to receive(:fields_for).
-      with("images_attributes[]",image).and_yield(image_form)
+      with(images_attributes,image).and_yield(image_form)
     expect(image_form).to receive(:label).with(:content, "Image 1")
-    expect(image_form).to receive(:file_field).with(:content, index:nil)
+    expect(image_form).to receive(:file_field).with(:content)
     expect(gallery_form).to receive(:submit)
   end
 
   subject(:div){ Capybara.string(rendering).find(".gallery") }
 
-  it{ subject }
+  it("new record"){ subject }
+
+  context "ord record" do
+    let(:new_record){ false }
+    let(:images_attributes){ "images_attributes[][]" }
+    it{ subject }
+  end
 
 end
 
