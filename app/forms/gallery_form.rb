@@ -10,7 +10,7 @@ class GalleryForm
 
   #TODO error test, ex. gif, tif, jpg
   def update params
-    update_images params[:images_attributes]
+    update_images params[:images_attributes] || {}
     @mdl.save
   end
 
@@ -18,9 +18,10 @@ class GalleryForm
 
   private
   
-    #TODO 2 images
-    def update_images params
-      images.build params
+    def update_images images_params
+      images_params.each do |params|
+        images.build params
+      end
     end
 
 end

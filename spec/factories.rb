@@ -9,6 +9,9 @@ FactoryGirl.define do
     article
   end
 
+  factory :image do
+  end
+
 end
 
 end

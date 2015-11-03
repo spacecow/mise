@@ -2,11 +2,11 @@
 
 <%= form_for @gallery, as: :gallery do |f| %>
 
-  <% @gallery.images.each do |image| %>
-    <%# fields_for "gallery[image_attributes][]", image do |image_form| %>
-    <%= f.fields_for :images_attributes, image do |image_form| %>
-      <%= image_form.label :content, "Image" %>
-      <%= image_form.file_field :content %>
+  <% @gallery.images.each_with_index do |image,i| %>
+    <%# fields_for "gallery[images_attributes][]", image do |image_form| %>
+    <%= f.fields_for "images_attributes[]", image do |image_form| %>
+      <%= image_form.label :content, "Image #{i+1}" %>
+      <%= image_form.file_field :content, index:nil %>
     <% end %>
   <% end %>
 
