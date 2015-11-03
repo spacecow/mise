@@ -27,14 +27,14 @@ describe "galleries/edit.html.erb" do
   let(:image_form){ double :image_form }
 
   before do
-    def bind.form_for mdl; end
+    def bind.form_for mdl, opt={}; end
     def bind.fields_for name, mdl; end
-    expect(bind).to receive(:form_for).with(gallery).and_yield(gallery_form)
+    expect(bind).to receive(:form_for).with(gallery, as: :gallery).and_yield(gallery_form)
     expect(gallery).to receive(:images){ [image] }
     expect(gallery_form).to receive(:fields_for).
-      with(:image_attributes,image).and_yield(image_form)
+      with(:images_attributes,image).and_yield(image_form)
     expect(image_form).to receive(:label).with(:content, "Image")
-    expect(image_form).to receive(:text_field).with(:content)
+    expect(image_form).to receive(:file_field).with(:content)
     expect(gallery_form).to receive(:submit)
   end
 
