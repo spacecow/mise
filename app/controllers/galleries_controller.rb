@@ -7,8 +7,8 @@ class GalleriesController < ApplicationController
   end
 
   def edit
-    @gallery = repo.gallery_form params[:id]
-    @gallery.images.build
+    @form = repo.gallery_form params[:id]
+    @form.images.build
   end
 
   def update

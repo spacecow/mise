@@ -1,16 +1,14 @@
+
 <div class="gallery">
 
-<%= form_for @gallery, as: :gallery do |f| %>
+<%= form_for @form, as: :gallery do |f| %>
 
-  <% @gallery.images.each_with_index do |image,i| %>
-    <%= f.fields_for "image[][]", image, index:image.id || 0 do |image_form| %>
-      <%= image_form.label :content, "Image #{i+1}" %>
-      <%= image_form.file_field :content %>
-    <% end %>
+  <% present @form, f do |presenter| %>
+    <%= presenter.images %>
+    <%= f.submit "Update Gallery" %>
   <% end %>
-
-  <%= f.submit "Update Gallery" %>
 
 <% end %>
 
 </div>
+
