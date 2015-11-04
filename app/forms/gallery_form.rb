@@ -11,7 +11,7 @@ class GalleryForm
   #TODO error test, ex. gif, tif, jpg
   def update params
     params ||= {}
-    update_images images_params(params) 
+    update_images params[:images_attributes].try(:first) || {}
     @mdl.save
   end
 
@@ -20,14 +20,10 @@ class GalleryForm
   private
   
     def update_images images_params
-      images_params.each do |params|
-        images.build params.values[0].permit(:content)
+      images_params.each do |key, image_params|
+        params = image_params.permit(:content)
+        key == "0" ? images.build(params) : images.find(key).update(params)
       end
-    end
-
-    def images_params params
-      return {} if params[:images_attributes].nil?
-      [Hash[params[:images_attributes].map{|h| [0,h]}]]
     end
 
 end

@@ -19,16 +19,16 @@ describe "edit gallery" do
     end
   end
 
-  #context "change first image" do
-  #  it "" do
-  #    attach_file "Image 1", './spec/images/flower2.gif'
-  #    click_button "Update Gallery"
-  #    image = Image.last
-  #    expect(Image.count).to be 1
-  #    expect(image.content_identifier).to eq "flower2.gif"
-  #    expect(image.gallery_id).to be Gallery.last.id
-  #  end
-  #end
+  context "change first image" do
+    it "" do
+      attach_file "Image 1", './spec/images/flower2.gif'
+      click_button "Update Gallery"
+      image = Image.last
+      expect(Image.count).to be 1
+      expect(image.content_identifier).to eq "flower2.gif"
+      expect(image.gallery_id).to be Gallery.last.id
+    end
+  end
 
   context "add first image" do
     let(:image){ nil }
@@ -62,6 +62,21 @@ describe "edit gallery" do
       expect(Image.count).to be 2
       expect(image.content_identifier).to eq "flower2.gif"
       expect(image.gallery_id).to be Gallery.last.id
+    end
+  end
+
+  context "add a second image, change the first" do
+    it "" do
+      attach_file "Image 1", './spec/images/flower2.gif'
+      attach_file "Image 2", './spec/images/flower.gif'
+      click_button "Update Gallery"
+      first_image = Image.first
+      last_image = Image.last
+      expect(Image.count).to be 2
+      expect(first_image.content_identifier).to eq "flower2.gif"
+      expect(first_image.gallery_id).to be Gallery.last.id
+      expect(last_image.content_identifier).to eq "flower.gif"
+      expect(last_image.gallery_id).to be Gallery.last.id
     end
   end
 

@@ -3,14 +3,11 @@
 <%= form_for @gallery, as: :gallery do |f| %>
 
   <% @gallery.images.each_with_index do |image,i| %>
-    <%# fields_for "gallery[images_attributes][]", image do |image_form| %>
-    <% if image.new_record? %>
-      <%= f.fields_for "images_attributes[]", image do |image_form| %>
-        <%= image_form.label :content, "Image #{i+1}" %>
-        <%= image_form.file_field :content %>
-      <% end %>
-    <% else %>
-      <%= f.fields_for "images_attributes[][]", image do |image_form| %>
+    <%= f.fields_for "images_attributes[][]", image do |image_form| %>
+      <% if image.new_record? %>
+        <%= image_form.label :content, "Image #{i+1}", index:0 %>
+        <%= image_form.file_field :content, index:0 %>
+      <% else %>
         <%= image_form.label :content, "Image #{i+1}" %>
         <%= image_form.file_field :content %>
       <% end %>

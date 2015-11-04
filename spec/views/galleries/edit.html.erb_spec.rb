@@ -27,7 +27,6 @@ describe "galleries/edit.html.erb" do
   let(:image_form){ double :image_form }
 
   let(:new_record){ true }
-  let(:images_attributes){ "images_attributes[]" }
 
   before do
     def bind.form_for mdl, opt={}; end
@@ -35,59 +34,27 @@ describe "galleries/edit.html.erb" do
     expect(gallery).to receive(:images){ [image] }
     expect(image).to receive(:new_record?){ new_record }
     expect(gallery_form).to receive(:fields_for).
-      with(images_attributes,image).and_yield(image_form)
-    expect(image_form).to receive(:label).with(:content, "Image 1")
-    expect(image_form).to receive(:file_field).with(:content)
+      with("images_attributes[][]",image).and_yield(image_form)
     expect(gallery_form).to receive(:submit)
   end
 
   subject(:div){ Capybara.string(rendering).find(".gallery") }
 
-  it("new record"){ subject }
-
-  context "ord record" do
-    let(:new_record){ false }
-    let(:images_attributes){ "images_attributes[][]" }
+  context "new record" do
+    before do
+      expect(image_form).to receive(:label).with(:content, "Image 1", index:0)
+      expect(image_form).to receive(:file_field).with(:content, index:0)
+    end
     it{ subject }
   end
 
-end
-
-if false
-
-class ErbBinding
-  def initialize hash
-    hash.each_pair do |key, value|
-      instance_variable_set('@' + key.to_s, value)
+  context "ord record" do
+    let(:new_record){ false }
+    before do
+      expect(image_form).to receive(:label).with(:content, "Image 1")
+      expect(image_form).to receive(:file_field).with(:content)
     end
-  end
-end
-
-
-  let(:locals){{ sentence:sentence }}
-
-  let(:sentence){ double :sentence }
-  let(:presenter){ double :presenter }
-
-  before do
-    def bind.present mdl; end
-    bind.should_receive(:present).with(sentence).and_yield presenter
-    bind.should_receive(:title).with(:japanese){ "japanese" }
-    bind.should_receive(:subtitle).with(:english){ "english" }
-    presenter.should_receive(:glossaries){ "glossaries" }
-    presenter.should_receive(:edit_link){ "edit glossary" }
-    sentence.should_receive(:japanese){ :japanese }
-    sentence.should_receive(:english){ :english }
-  end
-
-  context "glossary list" do
-    subject{ div.find("ul.glossaries").text.strip }
-    it{ should eq "glossaries" }
-  end
-
-  context "footer section" do
-    subject{ div.find(".footer").text.strip }
-    it{ should eq "edit glossary" }
+    it{ subject }
   end
 
 end
