@@ -25,35 +25,30 @@ describe "galleries/edit.html.erb" do
   let(:gallery_form){ double :gallery_form }
   let(:image){ double :image }
   let(:image_form){ double :image_form }
-
-  let(:new_record){ true }
+  let(:image_id){ 1 }
 
   before do
     def bind.form_for mdl, opt={}; end
-    expect(bind).to receive(:form_for).with(gallery, as: :gallery).and_yield(gallery_form)
-    expect(gallery).to receive(:images){ [image] }
-    expect(image).to receive(:new_record?){ new_record }
+    expect(bind).to receive(:form_for).with(gallery, as: :gallery).
+      and_yield(gallery_form)
     expect(gallery_form).to receive(:fields_for).
-      with("images_attributes[][]",image).and_yield(image_form)
+      with("image[][]",image,index:image_id ? image_id : 0).
+      and_yield(image_form)
     expect(gallery_form).to receive(:submit)
+    expect(gallery).to receive(:images){ [image] }
+    expect(image).to receive(:id){ image_id }
+    expect(image_form).to receive(:label).with(:content, "Image 1")
+    expect(image_form).to receive(:file_field).with(:content)
   end
 
   subject(:div){ Capybara.string(rendering).find(".gallery") }
 
   context "new record" do
-    before do
-      expect(image_form).to receive(:label).with(:content, "Image 1", index:0)
-      expect(image_form).to receive(:file_field).with(:content, index:0)
-    end
     it{ subject }
   end
 
-  context "ord record" do
-    let(:new_record){ false }
-    before do
-      expect(image_form).to receive(:label).with(:content, "Image 1")
-      expect(image_form).to receive(:file_field).with(:content)
-    end
+  context "old record" do
+    let(:image_id){ nil }
     it{ subject }
   end
 

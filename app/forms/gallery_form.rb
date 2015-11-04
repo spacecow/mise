@@ -11,7 +11,7 @@ class GalleryForm
   #TODO error test, ex. gif, tif, jpg
   def update params
     params ||= {}
-    update_images params[:images_attributes].try(:first) || {}
+    update_images params[:image].try(:first) || {}
     @mdl.save
   end
 
