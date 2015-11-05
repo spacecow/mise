@@ -11,6 +11,24 @@ describe "edit gallery" do
     visit edit_gallery_path(gallery)
   end
 
+  pending "add two images with javascript"
+
+  context "add a second image, change the first" do
+    it "" do
+      expect(page).to have_selector("img", count:1)     
+      attach_file "Image 1", './spec/images/flower2.gif'
+      attach_file "Image 2", './spec/images/flower.gif'
+      click_button "Update Gallery"
+      first_image = Image.first
+      last_image = Image.last
+      expect(Image.count).to be 2
+      expect(first_image.content_identifier).to eq "flower2.gif"
+      expect(first_image.gallery_id).to be Gallery.last.id
+      expect(last_image.content_identifier).to eq "flower.gif"
+      expect(last_image.gallery_id).to be Gallery.last.id
+    end
+  end
+
   #context "update empty gallery" do
   #  let(:image){ nil }
   #  it "" do
@@ -42,8 +60,6 @@ describe "edit gallery" do
   #  end
   #end
 
-  pending "add two images with javascript"
-
   #context "resubmit first image" do
   #  it "" do
   #    click_button "Update Gallery"
@@ -64,20 +80,5 @@ describe "edit gallery" do
   #    expect(image.gallery_id).to be Gallery.last.id
   #  end
   #end
-
-  context "add a second image, change the first" do
-    it "" do
-      attach_file "Image 1", './spec/images/flower2.gif'
-      attach_file "Image 2", './spec/images/flower.gif'
-      click_button "Update Gallery"
-      first_image = Image.first
-      last_image = Image.last
-      expect(Image.count).to be 2
-      expect(first_image.content_identifier).to eq "flower2.gif"
-      expect(first_image.gallery_id).to be Gallery.last.id
-      expect(last_image.content_identifier).to eq "flower.gif"
-      expect(last_image.gallery_id).to be Gallery.last.id
-    end
-  end
 
 end
