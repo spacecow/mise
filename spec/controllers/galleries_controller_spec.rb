@@ -40,7 +40,7 @@ describe "GalleriesController" do
     let(:function){ :update }
     let(:form){ double :form }
     before do
-      expect(controller).to receive(:edit_gallery_path).with(:form_id){ :path }
+      expect(controller).to receive(:gallery_path).with(:form_id){ :path }
       expect(controller).to receive(:redirect_to).with(:path){ :redirect }
       expect(repo).to receive(:gallery_form).with(:id){ form }
       expect(repo).to receive(:update_gallery).with(form,:gallery)

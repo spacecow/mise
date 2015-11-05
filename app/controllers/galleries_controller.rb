@@ -1,5 +1,8 @@
 class GalleriesController < ApplicationController
   
+  def show
+  end
+
   def create
     article = repo.article params[:article_id]
     repo.create_gallery article
@@ -14,7 +17,7 @@ class GalleriesController < ApplicationController
   def update
     form = repo.gallery_form params[:id]
     repo.update_gallery form, params[:gallery]
-    redirect_to edit_gallery_path(form.id)
+    redirect_to gallery_path(form.id)
   end
 
 end

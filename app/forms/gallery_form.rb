@@ -1,18 +1,18 @@
 class GalleryForm
   include ActiveModel::Model
 
-  def initialize mdl
-    @mdl = mdl
+  def initialize gallery
+    @gallery = gallery
   end 
 
-  def id; @mdl.id end
-  def images; @mdl.images end
+  def id; @gallery.id end
+  def images; @gallery.images end
 
   #TODO error test, ex. gif, tif, jpg
   def update params
     params ||= {}
     update_images params[:image].try(:first) || {}
-    @mdl.save
+    @gallery.save
   end
 
   def persisted?; true end
