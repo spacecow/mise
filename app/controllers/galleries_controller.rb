@@ -15,9 +15,13 @@ class GalleriesController < ApplicationController
   end
 
   def update
-    form = repo.gallery_form params[:id]
-    repo.update_gallery form, params[:gallery]
-    redirect_to gallery_path(form.id)
+    @form = repo.gallery_form params[:id]
+    repo.update_gallery @form, params[:gallery]
+    if (params[:gallery] || {})[:image]
+      render :crop
+    else
+      redirect_to gallery_path(@form.id)
+    end
   end
 
 end

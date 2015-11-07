@@ -2,7 +2,8 @@ describe "GalleriesController" do
 
   let(:controller){ GalleriesController.new }
   let(:repo){ double :repo }
-  let(:params){{ id: :id, gallery: :gallery, article_id: :article_id }}
+  let(:gallery){ {} }
+  let(:params){{ id: :id, gallery: gallery, article_id: :article_id }}
 
   before do
     stub_const "ApplicationController", Class.new unless defined?(Rails)
@@ -40,13 +41,33 @@ describe "GalleriesController" do
     let(:function){ :update }
     let(:form){ double :form }
     before do
-      expect(controller).to receive(:gallery_path).with(:form_id){ :path }
-      expect(controller).to receive(:redirect_to).with(:path){ :redirect }
       expect(repo).to receive(:gallery_form).with(:id){ form }
-      expect(repo).to receive(:update_gallery).with(form,:gallery)
-      expect(form).to receive(:id).with(no_args){ :form_id }
+      expect(repo).to receive(:update_gallery).with(form,gallery)
     end
-    it("success and redirect"){ should eq :redirect }
+
+    context "success and redirect" do
+      before do
+        expect(controller).to receive(:gallery_path).with(:form_id){ :path }
+        expect(controller).to receive(:redirect_to).with(:path){ :redirect }
+        expect(form).to receive(:id).with(no_args){ :form_id }
+      end
+      context "gallery params exist" do
+        it{ should eq :redirect }
+      end
+      context "gallery params is not present" do
+        let(:gallery){ nil }
+        it{ should eq :redirect }
+      end
+    end
+
+    context "image is present" do
+      let(:gallery){{ image: :image }}
+      before do 
+        expect(controller).to receive(:render).with(:crop){ :crop }
+      end
+      it{ subject }
+    end
+
     pending("failure and render")
   end
 
