@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.blueimp-gallery.min
+//= require jquery.Jcrop.min
 //= require turbolinks
 //= require_tree .
