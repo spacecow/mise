@@ -13,7 +13,7 @@ describe "show article" do
     gallery = Gallery.last
     expect(Gallery.count).to be 1
     expect(gallery.article_id).to be article.id
-    expect(current_path).to eq article_path(article)
+    expect(current_path).to eq gallery_path(gallery)
   end
 
 end
