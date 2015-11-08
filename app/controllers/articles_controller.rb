@@ -5,6 +5,7 @@ class ArticlesController < ApplicationController
   end
 
   def index
+    @articles = Article.all
     @article = repo.new_article
   end
 

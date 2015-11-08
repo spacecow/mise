@@ -18,18 +18,25 @@ describe "articles/index.html.erb" do
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/articles/index.html.erb" }
-  let(:locals){{ article: :article }}
+  let(:locals){{ article: :article, articles: :articles }}
 
   let(:builder){ double :builder }
 
-  subject{ Capybara.string(rendering) }
+  subject(:page){ Capybara.string(rendering) }
   
   before do
     def bind.form_for obj; end
+    def bind.render obj; end
     expect(bind).to receive(:form_for).with(:article).and_yield(builder)
+    expect(bind).to receive(:render).with(:articles){ "articles" }
     expect(builder).to receive(:label).with(:title,"Article"){ "title_label" }
     expect(builder).to receive(:text_field).with(:title){ "title_text_field" }
     expect(builder).to receive(:submit).with("Create Article"){ "submit" }
+  end
+
+  describe "List articles" do
+    subject{ page.find 'ul.articles' }
+    its(:text){ should include "articles" }
   end
 
   describe "Title text field" do

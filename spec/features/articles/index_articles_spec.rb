@@ -2,8 +2,18 @@ require 'rails_helper'
 
 describe "Index articles" do
 
+  let(:article){ nil }
+
   before do
+    article
     visit articles_path
+  end
+
+  context "List articles" do
+    let(:article){ create :article, title:'a fancy book' }
+    it "" do
+      expect(page.text).to include 'a fancy book'
+    end
   end
 
   it "Create article" do
