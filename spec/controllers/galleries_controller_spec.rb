@@ -2,7 +2,6 @@ describe "GalleriesController" do
 
   let(:controller){ GalleriesController.new }
   let(:repo){ double :repo }
-  let(:params){{ article_id: :article_id }}
 
   before do
     stub_const "ApplicationController", Class.new unless defined?(Rails)
@@ -13,8 +12,19 @@ describe "GalleriesController" do
 
   subject{ controller.send function }
 
+  describe "#show" do
+    let(:function){ :show }
+    let(:params){{ id: :id }}
+    before do
+      expect(repo).to receive(:gallery).with(:id){ :gallery }
+      expect(repo).to receive(:build_image).with(:gallery){ :image }
+    end
+    it{ should eq :image }
+  end
+
   describe "#create" do
     let(:function){ :create }
+    let(:params){{ article_id: :article_id }}
     before do
       expect(controller).to receive(:redirect_to).with(:gallery){ :redirect }
       expect(repo).to receive(:article).with(:article_id){ :article }

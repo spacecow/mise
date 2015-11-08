@@ -1,5 +1,5 @@
 require 'capybara'
-#
+
 class ErbBinding
   def initialize hash
     hash.each_pair do |key, value|

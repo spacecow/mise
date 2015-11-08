@@ -5,6 +5,10 @@ FactoryGirl.define do
   factory :article do
   end
 
+  factory :gallery do
+    article
+  end
+
 end
 
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "show article" do
+describe "Show article" do
 
   let(:article){ create :article }
 
