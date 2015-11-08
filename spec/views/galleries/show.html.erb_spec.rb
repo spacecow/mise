@@ -1,4 +1,5 @@
 require 'capybara'
+require 'rspec/its'
 
 class ErbBinding
   def initialize hash
@@ -22,7 +23,7 @@ describe "galleries/show.html.erb" do
   let(:builder){ double :builder }
   let(:presenter){ double :presenter }
 
-  subject(:div){ Capybara.string(rendering).text }
+  subject(:page){ Capybara.string(rendering) }
   
   before do
     def bind.form_for obj; end
@@ -37,19 +38,20 @@ describe "galleries/show.html.erb" do
   end
 
   describe "List images" do
-    it{ should include "images" }
+    subject{ page.find 'div#links' }
+    its(:text){ should include "images" }
   end
 
   describe "Gallery id hidden field" do
-    it{ should include "gallery_id" }
+    its(:text){ should include "gallery_id" }
   end
 
   describe "Content file field" do
-    it{ should match /content_label\s*content_file_field/m }
+    its(:text){ should match /content_label\s*content_file_field/m }
   end
 
   describe "Add image button" do
-    it{ should include "submit" }
+    its(:text){ should include "submit" }
   end
 
 end

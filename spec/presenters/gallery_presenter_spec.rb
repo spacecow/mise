@@ -1,3 +1,4 @@
+require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string/output_safety'
 require './app/presenters/gallery_presenter'
 
@@ -25,10 +26,12 @@ describe GalleryPresenter do
     context "Has saved image" do
       let(:new_record){ false }
       before do
-        expect(view).to receive(:image_tag).with(:url){ "image" }
-        expect(image).to receive(:content_url).with(:thumb){ :url }
+        expect(view).to receive(:link_to).with(:image, :url){ "link" }
+        expect(view).to receive(:image_tag).with(:thumb_url){ :image }
+        expect(image).to receive(:content_url).with(:thumb){ :thumb_url }
+        expect(image).to receive(:content_url).with(no_args){ :url }
       end
-      it{ should eq "image" }
+      it{ should eq "link" }
     end
 
   end
