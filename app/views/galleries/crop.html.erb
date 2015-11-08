@@ -1,1 +1,12 @@
-<%= image_tag @form.images.last.content_url(:large) %>
+
+<%= form_for @form, as: :gallery do |f| %>
+  <% @form.images.each_with_index.map do |image,i| %>
+    <%= image_tag image.content_url(:large), class:'image crop' %>
+    <%= f.fields_for "image[][]", image, index:image.id do |image_builder| %>
+      <% %w(x y w h).each do |attr| %>
+        <%= image_builder.text_field "crop_#{attr}" %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.submit "Crop" %>
+<% end %>

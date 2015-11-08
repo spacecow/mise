@@ -21,8 +21,12 @@ class GalleryForm
   
     def update_images images_params
       images_params.each do |key, image_params|
-        params = image_params.permit(:content)
-        key == "0" ? images.build(params) : images.find(key).update(params)
+        params = image_params.permit(:content, :crop_x, :crop_y)
+        if params[:content]
+          key == "0" ? images.build(params) : images.find(key).update(params)
+        elsif params[:crop_x]
+          images.find(key).content.recreate_versions!
+        end
       end
     end
 
