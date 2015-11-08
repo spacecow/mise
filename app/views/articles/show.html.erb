@@ -1,1 +1,5 @@
-<%= link_to "Create Gallery", galleries_path(article_id:@article.id), method: :post %>
+<% present @article do |presenter| %>
+
+  <%= presenter.create_gallery_link %>
+
+<% end %>
