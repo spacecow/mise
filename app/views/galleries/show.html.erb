@@ -1,3 +1,7 @@
+<% present @gallery do |presenter| %>
+  <%= presenter.images %>
+<% end %>
+
 <%= form_for @image do |f| %>
 
   <%= f.hidden_field :gallery_id %>

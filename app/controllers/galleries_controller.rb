@@ -1,8 +1,8 @@
 class GalleriesController < ApplicationController
   
   def show
-    gallery = repo.gallery params[:id]
-    @image = repo.build_image gallery 
+    @gallery = repo.gallery params[:id]
+    @image = repo.build_image @gallery 
   end
 
   def create

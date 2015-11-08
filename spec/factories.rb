@@ -9,6 +9,10 @@ FactoryGirl.define do
     article
   end
 
+  factory :image do
+    content File.open "./spec/images/flower.gif"
+  end
+
 end
 
 end
