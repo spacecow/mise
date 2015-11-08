@@ -12,7 +12,7 @@ describe "articles/show.html.erb" do
 
   let(:bind){ ErbBinding.new locals }
   let(:local_bindings){ bind.instance_eval{binding} }
-  let(:file){ File.read(filepath) }
+  let(:file){ File.read filepath }
   let(:erb){ ERB.new file }
   let(:rendering){ erb.result local_bindings }
 
