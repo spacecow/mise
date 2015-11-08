@@ -9,7 +9,7 @@ class Repository
 
   def create_image params
     gallery = gallery params.delete(:gallery_id)
-    gallery.images.create params 
+    gallery.images.create params.permit(:content)
   end 
 
 end

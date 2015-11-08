@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20151108023433) do
 
   create_table "images", force: :cascade do |t|
     t.integer  "gallery_id", null: false
+    t.string   "content",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

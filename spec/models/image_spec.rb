@@ -1,9 +1,4 @@
-require './spec/helpers/database_helper'
-require './spec/helpers/image_helper'
-
-require './spec/helpers/factory_helper'
-require './spec/helpers/gallery_helper'
-require './spec/helpers/article_helper'
+require 'rails_helper'
 
 describe Image do
 
@@ -11,7 +6,8 @@ describe Image do
 
     let(:gallery){ create :gallery }
     let(:gallery_id){ gallery.id }
-    let(:params){{ gallery_id:gallery_id }}
+    let(:content){ File.open "./spec/images/flower.gif" } 
+    let(:params){{ gallery_id:gallery_id, content:content }}
 
     subject{ -> { Image.create params }}
 
@@ -31,6 +27,15 @@ describe Image do
         expect(e.message).to include "PG::NotNullViolation"
       }}
     end
+
+    context "Content is nil" do
+      let(:content){ nil }
+      it{ should raise_error{|e|
+        expect(e).to be_a ActiveRecord::StatementInvalid
+        expect(e.message).to include "PG::NotNullViolation"
+      }}
+    end
+
 
     context "Gallery_id points to a non-existing model" do
       let(:gallery_id){ -1 }
