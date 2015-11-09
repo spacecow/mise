@@ -1,3 +1,6 @@
 <li class="article">
-  <%= article.title %>
+  <span class="title"><%= article.title %></span>
+  <span class="actions">
+    <span class="edit"><%= link_to "Edit", edit_article_path(article) %></span>
+  </span>
 </li>

@@ -16,6 +16,14 @@ describe "Index articles" do
     end
   end
 
+  context "Edit article" do
+    let(:article){ create :article, title:'a fancy book' }
+    it "" do
+      click_link "Edit" 
+      expect(current_path).to eq edit_article_path(article)
+    end
+  end
+
   it "Create article" do
     fill_in "Article", with:"a book"
     click_button "Create Article"
