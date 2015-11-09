@@ -19,6 +19,7 @@ describe "Show article" do
     end
   end
 
+  #TODO create empty image generates error
   it "create image" do
     expect(page).not_to have_selector "img"
     attach_file "Image", './spec/images/flower.gif'
@@ -27,18 +28,7 @@ describe "Show article" do
     expect(Image.count).to be 1
     expect(image.gallery_id).to be gallery.id
     expect(image.content_identifier).to eq "flower.gif" 
-    expect(current_path).to eq gallery_path(gallery)
+    expect(current_path).to eq article_path(gallery.article)
   end
-
-  #context "create gallery" do
-  #  let(:gallery){ nil }
-  #  it "" do
-  #    click_link "Create Gallery"
-  #    gallery = Gallery.last
-  #    expect(Gallery.count).to be 1
-  #    expect(gallery.article_id).to be article.id
-  #    expect(current_path).to eq gallery_path(gallery)
-  #  end
-  #end
 
 end

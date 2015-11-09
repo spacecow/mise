@@ -17,9 +17,9 @@ describe "ImagesController" do
     let(:params){{ image: :image }}
     let(:image){ double :image }
     before do
-      expect(controller).to receive(:redirect_to).with(:gallery){ :redirect }
+      expect(controller).to receive(:redirect_to).with(:article){ :redirect }
       expect(repo).to receive(:create_image).with(:image){ image }
-      expect(image).to receive(:gallery).with(no_args){ :gallery }
+      expect(image).to receive(:article).with(no_args){ :article }
     end
     it("success and redirect"){ should eq :redirect }
     pending("failure and render")
