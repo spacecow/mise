@@ -5,6 +5,7 @@ class Repository
   def create_article params; Article.create params.permit(:title) end 
   def new_article; Article.new end
   def new_article_form; ArticleForm.new new_article end
+  def article_form id; ArticleForm.new article(id) end
   def update_article article, params; article.update params.permit(:title) end 
  
   def gallery id; Gallery.find id end

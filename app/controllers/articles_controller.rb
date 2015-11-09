@@ -12,18 +12,20 @@ class ArticlesController < ApplicationController
 
   def create
     @article = repo.new_article_form
-    @article.save params.require(:article)
-    redirect_to articles_path
+    if @article.save params.require(:article)
+      redirect_to articles_path
+    end
   end
 
   def edit
-    @article = repo.article params[:id] 
+    @article = repo.article_form params[:id]
   end
 
   def update
-    article = repo.article params[:id] 
-    repo.update_article article, params.require(:article)
-    redirect_to article
+    @article = repo.article_form params[:id]
+    if @article.update params.require(:article)
+      redirect_to @article
+    end
   end
 
 end
