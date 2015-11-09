@@ -7,12 +7,12 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = repo.articles 
-    @article = repo.new_article
+    @article = repo.new_article_form
   end
 
   def create
-    article = repo.create_article params.require(:article)
-    repo.create_gallery article
+    @article = repo.new_article_form
+    @article.save params.require(:article)
     redirect_to articles_path
   end
 

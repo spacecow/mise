@@ -1,8 +1,5 @@
-<%= form_for article do |f| %>
-
+<%= form_for article, as: :article do |f| %>
   <%= f.label :title, "Article" %>
   <%= f.text_field :title %>
-
   <%= f.submit %>
-
 <% end %>

@@ -29,19 +29,20 @@ describe "ArticlesController" do
     let(:function){ :index }
     before do
       expect(repo).to receive(:articles).with(no_args){ :articles }
-      expect(repo).to receive(:new_article).with(no_args){ :article }
+      expect(repo).to receive(:new_article_form).with(no_args){ :form }
     end
-    it{ should eq :article }
+    it{ subject }
   end
 
   describe "#create" do
     let(:function){ :create }
     let(:params){ ActionController::Parameters.new({ article: :article }) }
+    let(:form){ double :form }
     before do
       expect(controller).to receive(:redirect_to).with(:path){ :redirect }
       expect(controller).to receive(:articles_path).with(no_args){ :path }
-      expect(repo).to receive(:create_article).with(:article){ :article }
-      expect(repo).to receive(:create_gallery).with(:article){ :gallery }
+      expect(repo).to receive(:new_article_form).with(no_args){ form }
+      expect(form).to receive(:save).with(:article){ true }
     end
     it{ should eq :redirect }
   end

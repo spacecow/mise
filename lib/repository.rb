@@ -4,10 +4,10 @@ class Repository
   def articles; Article.all end
   def create_article params; Article.create params.permit(:title) end 
   def new_article; Article.new end
+  def new_article_form; ArticleForm.new new_article end
   def update_article article, params; article.update params.permit(:title) end 
  
   def gallery id; Gallery.find id end
-  def create_gallery article; article.create_gallery end
 
   def build_image gallery; gallery.images.build end
   def create_image params

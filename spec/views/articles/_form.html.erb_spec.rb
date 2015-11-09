@@ -25,9 +25,9 @@ describe "articles/_form.html.erb" do
   subject(:page){ Capybara.string(rendering) }
   
   before do
-    def bind.form_for obj; end
+    def bind.form_for obj, hash; end
     def bind.article; end
-    expect(bind).to receive(:form_for).with(:article).and_yield(builder)
+    expect(bind).to receive(:form_for).with(:article, as: :article).and_yield(builder)
     expect(bind).to receive(:article).with(no_args){ :article }
     expect(builder).to receive(:label).with(:title,"Article"){ "title_label" }
     expect(builder).to receive(:text_field).with(:title){ "title_text_field" }
