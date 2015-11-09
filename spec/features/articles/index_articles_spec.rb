@@ -30,6 +30,10 @@ describe "Index articles" do
     article = Article.last
     expect(Article.count).to be 1
     expect(article.title).to eq "a book"
+    gallery = Gallery.last
+    expect(Gallery.count).to be 1
+    expect(gallery.article_id).to be article.id
+    expect(current_path).to eq articles_path
   end
 
 end

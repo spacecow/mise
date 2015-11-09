@@ -12,7 +12,8 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    repo.create_article params.require(:article)
+    article = repo.create_article params.require(:article)
+    repo.create_gallery article
     redirect_to articles_path
   end
 

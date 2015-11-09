@@ -40,7 +40,8 @@ describe "ArticlesController" do
     before do
       expect(controller).to receive(:redirect_to).with(:path){ :redirect }
       expect(controller).to receive(:articles_path).with(no_args){ :path }
-      expect(repo).to receive(:create_article).with(:article)
+      expect(repo).to receive(:create_article).with(:article){ :article }
+      expect(repo).to receive(:create_gallery).with(:article){ :gallery }
     end
     it{ should eq :redirect }
   end
