@@ -1,8 +1,10 @@
 class Repository
 
   def article id; Article.find id end
+  def articles; Article.all end
   def create_article params; Article.create params.permit(:title) end 
   def new_article; Article.new end
+  def update_article article, params; article.update params.permit(:title) end 
  
   def gallery id; Gallery.find id end
   def create_gallery article; article.create_gallery end

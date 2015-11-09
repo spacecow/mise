@@ -2,11 +2,6 @@
   <%= render @articles %>
 </ul>
 
-<%= form_for @article do |f| %>
-
-  <%= f.label :title, "Article" %>
-  <%= f.text_field :title %>
-
-  <%= f.submit "Create Article" %>
-
-<% end %>
+<div class="form article">
+  <%= render "form", article:@article %>
+</div>

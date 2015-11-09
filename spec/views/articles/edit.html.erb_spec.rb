@@ -9,7 +9,7 @@ class ErbBinding
   end
 end
 
-describe "articles/index.html.erb" do
+describe "articles/edit.html.erb" do
 
   let(:bind){ ErbBinding.new locals }
   let(:local_bindings){ bind.instance_eval{binding} }
@@ -17,20 +17,14 @@ describe "articles/index.html.erb" do
   let(:erb){ ERB.new file }
   let(:rendering){ erb.result local_bindings }
 
-  let(:filepath){ "./app/views/articles/index.html.erb" }
+  let(:filepath){ "./app/views/articles/edit.html.erb" }
   let(:locals){{ article: :article, articles: :articles }}
 
   subject(:page){ Capybara.string(rendering) }
   
   before do
     def bind.render obj, hash={}; end
-    expect(bind).to receive(:render).with(:articles){ "articles" }
     expect(bind).to receive(:render).with("form", article: :article){ "form" }
-  end
-
-  describe "List articles" do
-    subject{ page.find 'ul.articles' }
-    its(:text){ should include "articles" }
   end
 
   describe "Article form" do

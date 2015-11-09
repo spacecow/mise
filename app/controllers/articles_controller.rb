@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = Article.all
+    @articles = repo.articles 
     @article = repo.new_article
   end
 
@@ -15,6 +15,13 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    @article = repo.article params[:id] 
+  end
+
+  def update
+    article = repo.article params[:id] 
+    repo.update_article article, params.require(:article)
+    redirect_to article
   end
 
 end

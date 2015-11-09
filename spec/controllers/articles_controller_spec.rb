@@ -22,7 +22,10 @@ describe "ArticlesController" do
 
   describe "#index" do
     let(:function){ :index }
-    before{ expect(repo).to receive(:new_article).with(no_args){ :article }}
+    before do
+      expect(repo).to receive(:articles).with(no_args){ :articles }
+      expect(repo).to receive(:new_article).with(no_args){ :article }
+    end
     it{ should eq :article }
   end
 
@@ -33,6 +36,24 @@ describe "ArticlesController" do
       expect(controller).to receive(:redirect_to).with(:path){ :redirect }
       expect(controller).to receive(:articles_path).with(no_args){ :path }
       expect(repo).to receive(:create_article).with(:article)
+    end
+    it{ should eq :redirect }
+  end
+
+  describe "#edit" do
+    let(:function){ :edit }
+    let(:params){{ id: :id }}
+    before{ expect(repo).to receive(:article).with(:id){ :article }}
+    it{ should eq :article }
+  end
+
+  describe "#update" do
+    let(:function){ :update }
+    let(:params){ ActionController::Parameters.new({ id: :id, article: :article })}
+    before do
+      expect(controller).to receive(:redirect_to).with(:article){ :redirect }
+      expect(repo).to receive(:article).with(:id){ :article }
+      expect(repo).to receive(:update_article).with(:article, :article)
     end
     it{ should eq :redirect }
   end
