@@ -18,9 +18,10 @@ describe "articles/show.html.erb" do
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/articles/show.html.erb" }
-  let(:locals){{ gallery: :gallery, image: :image }}
+  let(:locals){{ article:article, gallery: :gallery, image: :image }}
 
   let(:presenter){ double :presenter }
+  let(:article){ double :article }
 
   subject(:page){ Capybara.string(rendering) }
   
@@ -30,6 +31,12 @@ describe "articles/show.html.erb" do
     expect(bind).to receive(:render).with("images/form", image: :image){ "form" }
     expect(bind).to receive(:present).with(:gallery).and_yield(presenter)
     expect(presenter).to receive(:images).with(no_args){ "images" }
+    expect(article).to receive(:title).with(no_args){ "a fancy book" }
+  end
+
+  describe "Display article title" do
+    subject{ page.find 'h1' }
+    its(:text){ should include "a fancy book" }
   end
 
   describe "List images" do
