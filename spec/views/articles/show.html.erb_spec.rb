@@ -1,4 +1,5 @@
 require 'capybara'
+require 'rspec/its'
 
 class ErbBinding
   def initialize hash
@@ -17,20 +18,27 @@ describe "articles/show.html.erb" do
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/articles/show.html.erb" }
-  let(:locals){{ article: :article }}
+  let(:locals){{ article: :article, image: :image }}
 
   let(:presenter){ double :presenter }
 
-  subject(:div){ Capybara.string(rendering).text }
+  subject(:page){ Capybara.string(rendering) }
   
   before do
     def bind.present obj; end
+    def bind.render obj, hash={}; end
     expect(bind).to receive(:present).with(:article).and_yield(presenter)
+    expect(bind).to receive(:render).with("images/form", image: :image){ "form" }
     expect(presenter).to receive(:create_gallery_link){ :link }
   end
 
+  describe "Image form" do
+    subject{ page.find 'div.form.image' }
+    its(:text){ should include "form" }
+  end
+
   describe "Create gallery link" do
-    it{ should include "link" }
+    its(:text){ should include "link" }
   end
 
 end

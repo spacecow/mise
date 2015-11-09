@@ -3,8 +3,10 @@ require 'rails_helper'
 describe "Edit article" do
 
   let(:article){ create :article }
+  let(:gallery){ create :gallery, article:article }
 
   before do
+    gallery
     visit edit_article_path(article)
   end
 

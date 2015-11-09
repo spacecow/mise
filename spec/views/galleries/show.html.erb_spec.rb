@@ -20,21 +20,16 @@ describe "galleries/show.html.erb" do
   let(:filepath){ "./app/views/galleries/show.html.erb" }
   let(:locals){{ image: :image, gallery: :gallery }}
 
-  let(:builder){ double :builder }
   let(:presenter){ double :presenter }
 
   subject(:page){ Capybara.string(rendering) }
   
   before do
-    def bind.form_for obj; end
     def bind.present obj; end
+    def bind.render obj, hash={}; end
     expect(bind).to receive(:present).with(:gallery).and_yield(presenter)
-    expect(bind).to receive(:form_for).with(:image).and_yield(builder)
+    expect(bind).to receive(:render).with("images/form", image: :image){ "form" }
     expect(presenter).to receive(:images).with(no_args){ "images" }
-    expect(builder).to receive(:hidden_field).with(:gallery_id){ "gallery_id" }
-    expect(builder).to receive(:label).with(:content,"Image"){ "content_label" }
-    expect(builder).to receive(:file_field).with(:content){ "content_file_field" }
-    expect(builder).to receive(:submit).with("Add Image"){ "submit" }
   end
 
   describe "List images" do
@@ -42,16 +37,9 @@ describe "galleries/show.html.erb" do
     its(:text){ should include "images" }
   end
 
-  describe "Gallery id hidden field" do
-    its(:text){ should include "gallery_id" }
-  end
-
-  describe "Content file field" do
-    its(:text){ should match /content_label\s*content_file_field/m }
-  end
-
-  describe "Add image button" do
-    its(:text){ should include "submit" }
+  describe "Image form" do
+    subject{ page.find 'div.form.image' }
+    its(:text){ should include "form" }
   end
 
 end

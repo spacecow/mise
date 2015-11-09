@@ -16,8 +16,13 @@ describe "ArticlesController" do
   describe "#show" do
     let(:function){ :show }
     let(:params){{ id: :id }}
-    before{ expect(repo).to receive(:article).with(:id){ :article }}
-    it{ should eq :article }
+    let(:article){ double :article }
+    before do
+      expect(repo).to receive(:article).with(:id){ article }
+      expect(repo).to receive(:build_image).with(:gallery){ :image }
+      expect(article).to receive(:gallery).with(no_args){ :gallery }
+    end
+    it{ should eq :image }
   end
 
   describe "#index" do

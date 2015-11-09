@@ -1,5 +1,7 @@
+<div class="form image">
+  <%= render "images/form", image:@image %>
+</div>
+
 <% present @article do |presenter| %>
-
   <%= presenter.create_gallery_link %>
-
 <% end %>

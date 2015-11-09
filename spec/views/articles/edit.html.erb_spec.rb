@@ -18,7 +18,7 @@ describe "articles/edit.html.erb" do
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/articles/edit.html.erb" }
-  let(:locals){{ article: :article, articles: :articles }}
+  let(:locals){{ article: :article }}
 
   subject(:page){ Capybara.string(rendering) }
   

@@ -2,7 +2,11 @@ require 'capybara'
 require 'rspec/its'
 
 class ErbBinding
-  def initialize hash; end
+  def initialize hash
+    hash.each_pair do |key, value|
+      instance_variable_set('@' + key.to_s, value)
+    end
+  end
 end
 
 describe "articles/_form.html.erb" do

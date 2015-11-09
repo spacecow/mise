@@ -17,7 +17,7 @@ describe "Show gallery" do
     end
   end
 
-  it "create gallery" do
+  it "create image" do
     expect(page).not_to have_selector "img"
     attach_file "Image", './spec/images/flower.gif'
     click_button "Add Image"

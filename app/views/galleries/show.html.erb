@@ -17,16 +17,9 @@
 
 <% end %>
 
-<%= form_for @image do |f| %>
-
-  <%= f.hidden_field :gallery_id %>
-
-  <%= f.label :content, "Image" %>
-  <%= f.file_field :content %>
-
-  <%= f.submit "Add Image" %>
-
-<% end %>
+<div class="form image">
+  <%= render "images/form", image:@image %>
+</div>
 
 <script>
 document.getElementById('links').onclick = function (event) {
