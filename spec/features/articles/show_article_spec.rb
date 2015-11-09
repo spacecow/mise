@@ -4,10 +4,19 @@ describe "Show article" do
 
   let(:article){ create :article }
   let(:gallery){ create :gallery, article:article }
+  let(:image){ nil }
 
   before do
+    image
     gallery
     visit article_path(article)
+  end
+
+  context "image already uploaded" do
+    let(:image){ create :image, gallery: gallery }
+    it "" do
+      expect(page).to have_selector "img"
+    end
   end
 
   it "create image" do

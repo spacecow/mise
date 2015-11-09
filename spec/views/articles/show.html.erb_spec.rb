@@ -18,7 +18,7 @@ describe "articles/show.html.erb" do
   let(:rendering){ erb.result local_bindings }
 
   let(:filepath){ "./app/views/articles/show.html.erb" }
-  let(:locals){{ article: :article, image: :image }}
+  let(:locals){{ gallery: :gallery, image: :image }}
 
   let(:presenter){ double :presenter }
 
@@ -26,7 +26,15 @@ describe "articles/show.html.erb" do
   
   before do
     def bind.render obj, hash={}; end
+    def bind.present obj; end
     expect(bind).to receive(:render).with("images/form", image: :image){ "form" }
+    expect(bind).to receive(:present).with(:gallery).and_yield(presenter)
+    expect(presenter).to receive(:images).with(no_args){ "images" }
+  end
+
+  describe "List images" do
+    subject{ page.find 'div#links' }
+    its(:text){ should include "images" }
   end
 
   describe "Image form" do

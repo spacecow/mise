@@ -1,9 +1,9 @@
 class ArticlesController < ApplicationController
 
   def show
-    @article = repo.article params[:id]
-    gallery = @article.gallery
-    @image = repo.build_image gallery 
+    article = repo.article params[:id]
+    @gallery = article.gallery
+    @image = repo.build_image @gallery 
   end
 
   def index
