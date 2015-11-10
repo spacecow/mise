@@ -39,12 +39,27 @@ describe "ArticlesController" do
     let(:params){ ActionController::Parameters.new({ article: :article }) }
     let(:form){ double :form }
     before do
-      expect(controller).to receive(:redirect_to).with(:path){ :redirect }
-      expect(controller).to receive(:articles_path).with(no_args){ :path }
       expect(repo).to receive(:new_article_form).with(no_args){ form }
-      expect(form).to receive(:save).with(:article){ true }
+      expect(form).to receive(:save).with(:article){ success }
     end
-    it{ should eq :redirect }
+
+    context "successful creation" do
+      let(:success){ true }
+      before do
+        expect(controller).to receive(:redirect_to).with(:path){ :redirect }
+        expect(controller).to receive(:articles_path).with(no_args){ :path }
+      end
+      it{ should eq :redirect }
+    end
+
+    context "failure during creation" do
+      let(:success){ false }
+      before do
+        expect(repo).to receive(:articles).with(no_args){ :articles }
+        expect(controller).to receive(:render).with(:index){ :render }
+      end
+      it{ should eq :render }
+    end
   end
 
   describe "#edit" do
@@ -59,11 +74,24 @@ describe "ArticlesController" do
     let(:params){ ActionController::Parameters.new({ id: :id, article: :article })}
     let(:form){ double :form }
     before do
-      expect(controller).to receive(:redirect_to).with(form){ :redirect }
       expect(repo).to receive(:article_form).with(:id){ form }
-      expect(form).to receive(:update).with(:article){ true }
+      expect(form).to receive(:update).with(:article){ success }
     end
-    it{ should eq :redirect }
-  end
 
+    context "successful update" do
+      let(:success){ true }
+      before do
+        expect(controller).to receive(:redirect_to).with(form){ :redirect }
+      end
+      it{ should eq :redirect }
+    end
+
+    context "failure during update" do
+      let(:success){ false }
+      before do
+        expect(controller).to receive(:render).with(:edit){ :render }
+      end
+      it{ should eq :render }
+    end
+  end
 end

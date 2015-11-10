@@ -28,6 +28,8 @@ class ArticlesController < ApplicationController
     @article = repo.article_form params[:id]
     if @article.update params.require(:article)
       redirect_to @article
+    else
+      render :edit
     end
   end
 
