@@ -14,6 +14,9 @@ class ArticlesController < ApplicationController
     @article = repo.new_article_form
     if @article.save params.require(:article)
       redirect_to articles_path
+    else
+      @articles = repo.articles 
+      render :index
     end
   end
 

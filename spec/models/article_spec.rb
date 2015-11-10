@@ -22,6 +22,14 @@ describe Article do
       }}
     end
 
+    context "Title is blank" do
+      let(:title){ "" }
+      it{ should raise_error{|e|
+        expect(e).to be_a ActiveRecord::StatementInvalid
+        expect(e.message).to include "PG::CheckViolation"
+      }}
+    end
+
   end
 
 end

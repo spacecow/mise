@@ -36,5 +36,12 @@ describe "Index articles" do
     expect(current_path).to eq articles_path
   end
 
-end
+  it "Fail to create article" do
+    click_button "Create Article"
+    expect(Article.count).to be 0
+    expect(page).to have_content "can't be blank"
+    expect(current_path).to eq articles_path
+  end
 
+
+end

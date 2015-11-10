@@ -21,17 +21,20 @@ describe "articles/_form.html.erb" do
   let(:locals){{ article: :article, articles: :articles }}
 
   let(:builder){ double :builder }
+  let(:article){ double :article }
+  let(:errors){{ title:["title error"] }}
 
   subject(:page){ Capybara.string(rendering) }
   
   before do
     def bind.form_for obj, hash; end
     def bind.article; end
-    expect(bind).to receive(:form_for).with(:article, as: :article).and_yield(builder)
-    expect(bind).to receive(:article).with(no_args){ :article }
+    expect(bind).to receive(:form_for).with(article, as: :article).and_yield(builder)
+    allow(bind).to receive(:article).with(no_args){ article }
     expect(builder).to receive(:label).with(:title,"Article"){ "title_label" }
     expect(builder).to receive(:text_field).with(:title){ "title_text_field" }
     expect(builder).to receive(:submit).with(no_args){ "submit" }
+    expect(article).to receive(:errors).with(no_args){ errors }
   end
 
   describe "Title text field" do

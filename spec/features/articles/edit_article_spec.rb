@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "Edit article" do
 
-  let(:article){ create :article }
+  let(:article){ create :article, title:"a book" }
   let(:gallery){ create :gallery, article:article }
 
   before do
@@ -11,6 +11,7 @@ describe "Edit article" do
   end
 
   it "update article" do
+    expect(page).to have_field('Article', with:"a book")
     fill_in "Article", with:"an updated book"
     click_button "Update Article"
     article = Article.last
